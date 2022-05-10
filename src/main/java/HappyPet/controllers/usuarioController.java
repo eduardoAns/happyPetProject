@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST} )
 public class usuarioController {
 
     @Autowired
@@ -14,6 +15,7 @@ public class usuarioController {
 
     @RequestMapping(value="api/usuario", method = RequestMethod.GET)
     public List<Usuario> getUsuarios(){
+
         return usuarioDao.getUsuarios();
 
     }
@@ -33,10 +35,11 @@ public class usuarioController {
 
 
 
-    @RequestMapping(value="api/usuario/{id}", method = RequestMethod.POST)
+    @RequestMapping(value="api/usuario", method = RequestMethod.POST)
     public void PostUsuario(@RequestBody Usuario usuario){
         usuarioDao.post(usuario);
     }
+
     @RequestMapping(value="api/usuario/{id}", method = RequestMethod.DELETE)
     public void deleteUsuario(@PathVariable String id){
         usuarioDao.delete(id);

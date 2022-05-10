@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +15,6 @@ import java.util.Date;
 @Entity
 @Table(name = "usuario")
 @ToString @EqualsAndHashCode
-
 public class Usuario {
 
     @Id
@@ -33,11 +33,13 @@ public class Usuario {
     @Getter @Setter @Column(name = "password")
     private String password;
 
+    @Getter @Setter @Column(name = "fechacreacion")
+    private String fechaCreacion;
+
     @Getter @Setter @Column(name = "rol")
     private String rol;
 
-    @Getter @Setter @Column(name = "fechaCreacion")
-    private String fechaCreacion;
+
 
 
 
