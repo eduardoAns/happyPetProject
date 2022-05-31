@@ -8,7 +8,9 @@ public interface UsuarioDao {
 
     List<Usuario> getUsuarios();
 
-    void delete( String id);
+    void delete( Integer id);
 
     void post(Usuario usuario);
+
+    Usuario obtenerUsuariosPorCredenciales(Usuario usuario);
 }

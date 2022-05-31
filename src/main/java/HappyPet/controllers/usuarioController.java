@@ -1,6 +1,7 @@
 package HappyPet.controllers;
 import HappyPet.dao.UsuarioDao;
 import HappyPet.models.Usuario;
+import HappyPet.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,9 @@ public class usuarioController {
     @Autowired
     private UsuarioDao usuarioDao;
 
+    @Autowired
+    private JWTUtil jwtUtil;
+
     @RequestMapping(value="api/usuario", method = RequestMethod.GET)
     public List<Usuario> getUsuarios(){
 
@@ -21,7 +25,7 @@ public class usuarioController {
     }
 
     @RequestMapping(value="api/usuario/{id}" , method = RequestMethod.GET)
-    public Usuario getUsuario(@PathVariable String id){
+    public Usuario getUsuario(@PathVariable Integer id){
         Usuario usuario = new Usuario();
         usuario.setId(id);
         usuario.setNombre("eduardo");
@@ -31,8 +35,8 @@ public class usuarioController {
         usuario.setRol("administrador");
         usuario.setFechaCreacion("07/05/2022");
         return usuario;
-    }
 
+    }
 
 
     @RequestMapping(value="api/usuario", method = RequestMethod.POST)
@@ -41,7 +45,7 @@ public class usuarioController {
     }
 
     @RequestMapping(value="api/usuario/{id}", method = RequestMethod.DELETE)
-    public void deleteUsuario(@PathVariable String id){
+    public void deleteUsuario(@PathVariable Integer id){
         usuarioDao.delete(id);
     }
 

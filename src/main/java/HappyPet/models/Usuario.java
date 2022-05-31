@@ -6,10 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 import java.util.Date;
 
 @Entity
@@ -19,7 +16,7 @@ public class Usuario {
 
     @Id
     @Getter @Setter @Column(name = "id")
-    private String id;
+    private Integer id;
 
     @Getter @Setter @Column(name = "nombre")
     private String nombre;
