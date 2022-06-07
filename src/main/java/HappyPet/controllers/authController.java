@@ -40,6 +40,31 @@ public class authController {
 
     }
 
+    @RequestMapping(value = "api/validtoken", method = RequestMethod.GET)
+    public Map<String, String> validToken(@RequestHeader(value = "Authorization") String tokenUsuario) {
+
+        System.out.println(tokenUsuario);
+        String usuarioId = jwtUtil.getKey(tokenUsuario);
+        Usuario usuarioLogueado = usuarioDao.getUsuario(Integer.parseInt(usuarioId));
+        System.out.println(usuarioLogueado);
+        Map<String, String> map = new HashMap<String, String>();
+
+        if (usuarioLogueado != null){
+
+            map.put("id", String.valueOf(usuarioLogueado.getId()));
+            map.put("rol",usuarioLogueado.getRol());
+
+            System.out.println(map);
+            return map;
+        }
+
+        return map;
+    }
+
+
+
+
+
     private Map<String, Map<String, String>> createToken(Usuario usuarioLogueado, int id) {
 
 

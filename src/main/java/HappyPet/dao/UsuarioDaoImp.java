@@ -64,7 +64,7 @@ public class UsuarioDaoImp implements UsuarioDao{
         }
 
 
-        return lista.get(0);
+        return null;
 
     }
 
