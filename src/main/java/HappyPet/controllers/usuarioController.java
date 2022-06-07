@@ -4,6 +4,8 @@ import HappyPet.models.Usuario;
 import HappyPet.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 
 import java.util.List;
 
@@ -26,21 +28,24 @@ public class usuarioController {
 
     @RequestMapping(value="api/usuario/{id}" , method = RequestMethod.GET)
     public Usuario getUsuario(@PathVariable Integer id){
-        Usuario usuario = new Usuario();
-        usuario.setId(id);
-        usuario.setNombre("eduardo");
-        usuario.setApellido("ansa");
-        usuario.setCorreo("email@email.com");
-        usuario.setPassword("12345");
-        usuario.setRol("administrador");
-        usuario.setFechaCreacion("07/05/2022");
+        Usuario usuario = usuarioDao.getUsuario(id);
         return usuario;
+    }
 
+    private boolean validarToken(String token){
+        String usuarioId = jwtUtil.getKey(token);
+        //
+        return usuarioId != null;
     }
 
 
     @RequestMapping(value="api/usuario", method = RequestMethod.POST)
     public void PostUsuario(@RequestBody Usuario usuario){
+
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        String hash = argon2.hash(1, 1024, 1, usuario.getPassword());
+        usuario.setPassword(hash);
+
         usuarioDao.post(usuario);
     }
 

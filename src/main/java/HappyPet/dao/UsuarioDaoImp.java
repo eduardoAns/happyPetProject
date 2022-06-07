@@ -27,13 +27,18 @@ public class UsuarioDaoImp implements UsuarioDao{
     }
 
 
-
-
     @Override
     public void delete(Integer id) {
 
         Usuario usuario = entityManager.find(Usuario.class ,id);
         entityManager.remove(usuario);
+    }
+
+    @Override
+    public Usuario getUsuario(Integer id) {
+
+        Usuario usuario = entityManager.find(Usuario.class ,id);
+        return usuario;
     }
 
     @Override
@@ -43,14 +48,19 @@ public class UsuarioDaoImp implements UsuarioDao{
 
     @Override
     public Usuario obtenerUsuariosPorCredenciales(Usuario usuario) {
-        String query ="FROM Usuario WHERE correo = :correo AND password = :password ";
+        String query ="FROM Usuario WHERE correo = :correo ";
         List<Usuario> lista = entityManager.createQuery(query)
                 .setParameter("correo", usuario.getCorreo())
-                .setParameter("password", usuario.getPassword())
                 .getResultList();
 
         if(lista.isEmpty()){
             return null;
+        }
+
+        String passwordHashed = lista.get(0).getPassword();
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        if (argon2.verify(passwordHashed, usuario.getPassword())){
+            return lista.get(0);
         }
 
 

@@ -21,32 +21,51 @@ public class authController {
     private JWTUtil jwtUtil;
 
     @RequestMapping(value = "api/login", method = RequestMethod.POST)
-
     public Map<String, Map<String, String>> login(@RequestBody Usuario usuario) {
 
         Usuario usuarioLogueado = usuarioDao.obtenerUsuariosPorCredenciales(usuario);
+        return createToken(usuarioLogueado, usuarioLogueado.getId());
+
+    }
+
+    @RequestMapping(value = "api/validate-token", method = RequestMethod.GET)
+    public Map<String, Map<String, String>> validateToken(@RequestHeader(value = "Authorization") String tokenUsuario) {
+
+        System.out.println(tokenUsuario);
+        String usuarioId = jwtUtil.getKey(tokenUsuario);
+        Usuario usuarioLogueado = usuarioDao.getUsuario(Integer.parseInt(usuarioId));
+        System.out.println(usuarioLogueado);
+
+        return createToken(usuarioLogueado, Integer.parseInt(usuarioId));
+
+    }
+
+    private Map<String, Map<String, String>> createToken(Usuario usuarioLogueado, int id) {
+
+
         String usuarioCorreo = usuarioLogueado.getCorreo();
         String usuarioNombre = usuarioLogueado.getNombre();
         String usuarioRol = usuarioLogueado.getRol();
-        Integer usuarioId = usuarioLogueado.getId();
 
 
         Map<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
+
         Map<String,String> user = new HashMap<String,String>();
         Map<String,String> token = new HashMap<String,String>();
+
         user.put("correo",usuarioCorreo);
         user.put("rol",usuarioRol);
         user.put("nombre",usuarioNombre);
 
         if (usuarioLogueado != null){
 
-            String tokenjwt = jwtUtil.create(String.valueOf(usuarioId), usuarioCorreo);
+            String tokenjwt = jwtUtil.create(String.valueOf(id), usuarioCorreo);
             token.put("jwt", tokenjwt);
 
             map.put("user", user);
             map.put("token",token);
 
-
+            System.out.println(map);
             return map;
         }
 

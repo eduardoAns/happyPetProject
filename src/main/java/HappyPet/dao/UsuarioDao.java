@@ -10,6 +10,8 @@ public interface UsuarioDao {
 
     void delete( Integer id);
 
+    Usuario getUsuario(Integer id);
+
     void post(Usuario usuario);
 
     Usuario obtenerUsuariosPorCredenciales(Usuario usuario);
