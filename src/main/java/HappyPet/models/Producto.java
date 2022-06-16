@@ -11,45 +11,51 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "producto")
-@ToString @EqualsAndHashCode
+@ToString
 public class Producto {
 
     @Id
-    @Getter @Setter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter @Column(name = "id")
     private Integer id;
 
-    @Getter @Setter
+    @Getter @Setter @Column(name = "descripcion")
     private String description;
 
     @Getter @Setter
-    private String[] images;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idproducto", referencedColumnName = "id")
+    private List<Imagen> images;
 
-    @Getter @Setter
-    private Integer stock;
+    @Getter @Setter @Column(name = "stock")
+    private Integer inStock;
 
-    @Getter @Setter
+    @Getter @Setter @Column(name = "precio")
     private Integer price;
 
-    @Getter @Setter
-    private String size;
+    @Getter @Setter @Column(name = "idtalla")
+    private String sizes;
 
-    @Getter @Setter
-    private String slug;
+    @Getter @Setter @Column(name = "idtags")
+    private String tags;
 
-    @Getter @Setter
-    private String[] tags;
-
-    @Getter @Setter
+    @Getter @Setter @Column(name = "nombre")
     private String title;
 
-    @Getter @Setter
+    @Getter @Setter @Column(name = "idtipo")
     private String type;
 
-    @Getter @Setter
+    @Getter @Setter @Column(name = "idgenero")
     private String gender;
 
+    @Getter @Setter @Column(name = "fechacreacion")
+    private String date;
+
+    @Getter @Setter @Column(name = "estado")
+    private String status;
 
 }

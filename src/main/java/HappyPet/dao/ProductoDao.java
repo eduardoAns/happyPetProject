@@ -1,16 +1,18 @@
 package HappyPet.dao;
 
+import HappyPet.models.Imagen;
 import HappyPet.models.Producto;
 
 import java.util.List;
 
 public interface ProductoDao {
-
     List<Producto> getProductos();
 
-    Producto getProducto(Integer id);
+    Producto getProductoId(Integer id);
 
-    void delete( Integer id);
+    List<Producto> getProductosByType(String type);
 
-    void post(Producto producto);
+    List<Producto> getProductosByTitle(String title);
+
+    void post(Producto producto, List<Imagen> imagen);
 }

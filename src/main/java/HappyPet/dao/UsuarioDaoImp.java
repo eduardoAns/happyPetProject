@@ -48,7 +48,9 @@ public class UsuarioDaoImp implements UsuarioDao{
 
     @Override
     public Usuario obtenerUsuariosPorCredenciales(Usuario usuario) {
+
         String query ="FROM Usuario WHERE correo = :correo ";
+
         List<Usuario> lista = entityManager.createQuery(query)
                 .setParameter("correo", usuario.getCorreo())
                 .getResultList();

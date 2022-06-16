@@ -1,28 +1,63 @@
 package HappyPet.dao;
 
+import HappyPet.models.Imagen;
 import HappyPet.models.Producto;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ProductoDaoImp implements ProductoDao {
+@Repository
+@Transactional
+public class ProductoDaoImp implements ProductoDao{
+
+    @PersistenceContext
+    EntityManager entityManager;
+
+
     @Override
+    @Transactional
     public List<Producto> getProductos() {
-        return null;
+        String query = "FROM Producto";
+        return entityManager.createQuery(query).getResultList();
     }
 
     @Override
-    public Producto getProducto(Integer id) {
-        return null;
+    public Producto getProductoId(Integer id) {
+        String query = "FROM Producto WHERE id = :id";
+        List<Producto> lista = entityManager.createQuery(query).setParameter("id", id).getResultList();
+        return lista.get(0);
     }
 
 
     @Override
-    public void delete(Integer id) {
+    public List<Producto> getProductosByType(String type) {
+        List<Producto> listaType = getProductos();
+        //return response;
+        return listaType;
+    }
 
+
+    @Override
+    public List<Producto> getProductosByTitle(String title) {
+        List<Producto> listaTitle = getProductos();
+        List<Producto> response = listaTitle.stream().filter(p -> p.getTitle().contains(title)).collect(Collectors.toList());
+        return response;
     }
 
     @Override
-    public void post(Producto producto) {
-
+    @Transactional
+    public void post(Producto producto, List<Imagen> imagen) {
+        entityManager.merge(producto);
+        /*
+        entityManager.merge(imagen.get(0));
+        entityManager.merge(imagen.get(1));
+        */
     }
+
+
+
 }

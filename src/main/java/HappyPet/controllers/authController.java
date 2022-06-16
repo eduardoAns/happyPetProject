@@ -21,6 +21,7 @@ public class authController {
     private JWTUtil jwtUtil;
 
     @RequestMapping(value = "api/login", method = RequestMethod.POST)
+
     public Map<String, Map<String, String>> login(@RequestBody Usuario usuario) {
 
         Usuario usuarioLogueado = usuarioDao.obtenerUsuariosPorCredenciales(usuario);
